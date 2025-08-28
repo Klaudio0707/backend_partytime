@@ -1,34 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, Delete, Param } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { GuestService } from './guest.service';
 import { CreateGuestDto } from './dto/create-guest.dto';
-import { UpdateGuestDto } from './dto/update-guest.dto';
 
-@Controller('guest')
+@Controller('guests')
 export class GuestController {
   constructor(private readonly guestService: GuestService) {}
 
+ 
   @Post()
-  create(@Body() createGuestDto: CreateGuestDto) {
-    return this.guestService.create(createGuestDto);
+  @UseGuards(AuthGuard('jwt-from-cookie'))
+  create(@Body() createGuestDto: CreateGuestDto, @Req() req) {
+    const userId = req.user.id;
+    // Chama o novo método simplificado do serviço
+    return this.guestService.create(createGuestDto, userId);
   }
-
-  @Get()
-  findAll() {
-    return this.guestService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.guestService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGuestDto: UpdateGuestDto) {
-    return this.guestService.update(+id, updateGuestDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.guestService.remove(+id);
+  @UseGuards(AuthGuard('jwt-from-cookie'))
+  remove(@Param('id') id: string, @Req() req) {
+    const userId = req.user.id;
+    return this.guestService.remove(id, userId);
   }
+  
 }
