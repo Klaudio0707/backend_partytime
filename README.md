@@ -1,98 +1,153 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+Com certeza! Um bom README.md é o cartão de visita de qualquer projeto. Ele deve explicar o que o projeto faz, as tecnologias utilizadas e, o mais importante, como instalá-lo e executá-lo.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Baseado em tudo que construímos, preparei um README completo e profissional para o seu projeto PartyTime.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Você pode simplesmente copiar e colar este conteúdo num ficheiro chamado README.md na raiz da pasta principal do seu projeto (a pasta que contém as subpastas backend e frontend).
 
-## Description
+🎉 PartyTime: O Seu Gestor de Festas Pessoal
+PartyTime é uma aplicação Full-Stack completa construída para simplificar o planeamento e a gestão de eventos. Desde o controlo do orçamento até à gestão de serviços e ao envio de convites, o PartyTime centraliza todas as ferramentas necessárias para transformar qualquer festa num sucesso, sem o stress da desorganização.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este projeto foi desenvolvido com uma arquitetura moderna, focada em segurança, boas práticas e uma excelente experiência de utilizador.
 
-## Project setup
+✨ Funcionalidades
+A aplicação está dividida numa área pública (para apresentar o produto) e numa área privada para utilizadores autenticados (o Dashboard de gestão).
 
-```bash
-$ npm install
-```
+Gestão de Utilizadores e Autenticação:
+🔐 Sistema de Autenticação Seguro: Registo e Login com senhas criptografadas (bcrypt).
 
-## Compile and run the project
+🍪 Sessão baseada em JWT: Uso de JSON Web Tokens armazenados em cookies HttpOnly para proteger contra ataques XSS.
 
-```bash
-# development
-$ npm run start
+👤 Página de Perfil: Utilizadores podem visualizar, atualizar os seus dados (username, senha) e excluir a sua própria conta.
 
-# watch mode
-$ npm run start:dev
+Gestão de Festas (Eventos):
+➕ Criação de Festas: Formulário completo com validação no frontend (react-hook-form + zod) e backend (DTOs) para criar novas festas com título, descrição, data, hora e orçamento.
 
-# production mode
-$ npm run start:prod
-```
+📋 Dashboard Personalizado: Painel de controlo que exibe um sumário (total de festas, orçamento gerido) e uma lista de todas as festas criadas pelo utilizador.
 
-## Run tests
+🔍 Página de Detalhes: Uma página completa para cada festa, que serve como central de gestão.
 
-```bash
-# unit tests
-$ npm run test
+✏️ Edição e Exclusão: Controlo total sobre as festas criadas.
 
-# e2e tests
-$ npm run test:e2e
+Gestão Financeira e de Serviços:
+💰 Painel Financeiro Dinâmico: Na página de detalhes, um resumo em tempo real do Orçamento Total, Total Gasto e Saldo Restante.
 
-# test coverage
-$ npm run test:cov
-```
+🛠️ CRUD de Serviços: Capacidade de adicionar, editar e remover serviços (DJ, Buffet, etc.) para cada festa, com o custo a ser refletido automaticamente no painel financeiro.
 
-## Deployment
+Gestão de Convidados e RSVP:
+🤵 Lista de Convidados: Adicione convidados a cada festa com nome e telefone.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+📱 Convites via WhatsApp: Geração de um link "Click to Chat" do WhatsApp com uma mensagem de convite pré-formatada.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+🔗 Sistema de RSVP com Token Único: Cada convite contém um link único e secreto para uma página pública de RSVP.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+🔑 Senha de Festa (Opcional): Organizadores podem definir uma senha para a festa, que será exigida na página de RSVP.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+📧 Notificação por E-mail: Quando um convidado confirma presença, o organizador da festa recebe uma notificação por e-mail (via Resend API).
 
-## Resources
+🚀 Tecnologias Utilizadas
+Backend:
+Framework: NestJS
 
-Check out a few resources that may come in handy when working with NestJS:
+Linguagem: TypeScript
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Base de Dados: PostgreSQL (gerido com Sequelize ORM)
 
-## Support
+Autenticação: Passport.js, JWT (@nestjs/jwt)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Validação: class-validator, class-transformer
 
-## Stay in touch
+Migrations: sequelize-cli
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+APIs Externas: Resend (para e-mails)
 
-## License
+Frontend:
+Framework: React com Vite
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Linguagem: TypeScript
+
+Roteamento: React Router DOM
+
+Gestão de Formulários: React Hook Form com Zod para validação de schemas
+
+Estilização: CSS Modules e um sistema de design global com Variáveis CSS
+
+Cliente HTTP: Axios
+
+Base de Dados e Serviços:
+Base de Dados: Neon (PostgreSQL Serverless)
+
+E-mails Transacionais: Resend
+
+📁 Estrutura de Pastas
+O projeto está organizado num monorepo-like, com duas pastas principais:
+
+/PartyTime/
+|
+├── 📂 backend/      <-- Projeto NestJS
+│   ├── src/
+│   ├── .env
+│   └── package.json
+|
+└── 📂 frontend/     <-- Projeto React/Vite
+    ├── src/
+    └── package.json
+🏁 Começando
+Siga os passos abaixo para executar o projeto localmente.
+
+Pré-requisitos
+Node.js (v18 ou superior)
+
+npm ou yarn
+
+Uma conta na Neon para a base de dados PostgreSQL.
+
+Uma conta na Resend para a API de e-mail.
+
+1. Configuração do Backend
+Bash
+
+# 1. Navegue para a pasta do backend
+cd backend
+
+# 2. Instale as dependências
+npm install
+
+# 3. Crie o ficheiro de variáveis de ambiente
+# Copie o .env.example para .env
+cp .env.example .env
+
+# 4. Preencha o ficheiro .env com as suas credenciais
+# Abra o ficheiro .env e adicione os seus dados da Neon, Resend, etc.
+Conteúdo do .env:
+
+DATABASE_URL="postgres://user:password@host.neon.tech/dbname?sslmode=require"
+JWT_SECRET="SEU_SEGREDO_SUPER_SECRETO_PARA_JWT"
+RESEND_API_KEY="re_SUA_CHAVE_DA_API_RESEND"
+ADMIN_NOTIFICATION_EMAIL="seu_email_verificado_na_resend@exemplo.com"
+Bash
+
+# 5. Configure a CLI do Sequelize
+# Crie os ficheiros de configuração da CLI (se ainda não existirem).
+# O .sequelizerc e o config/sequelize.config.js já devem estar no projeto.
+# Garanta que o config/sequelize.config.js está a ler o .env corretamente.
+
+# 6. Execute as migrations para criar as tabelas no banco de dados
+npx sequelize-cli db:migrate
+
+# 7. Inicie o servidor de desenvolvimento
+npm run start:dev
+O backend estará a rodar em http://localhost:3000.
+
+2. Configuração do Frontend
+Bash
+
+# 1. Abra um NOVO terminal e navegue para a pasta do frontend
+cd frontend
+
+# 2. Instale as dependências
+npm install
+
+# 3. Inicie o servidor de desenvolvimento
+npm run dev
+A aplicação frontend estará acessível em http://localhost:5173.
+
