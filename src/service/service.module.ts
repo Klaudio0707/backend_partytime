@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ServiceService } from './service.service';
-import { ServiceController } from './service.controller';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { ServiceEntity } from './entities/service.entity';
+import { ServicesService } from './service.service';
+import { ServicesController  } from './service.controller';
+import { PartyEntity } from 'src/party/entities/party.entity';
 
 @Module({
-  controllers: [ServiceController],
-  providers: [ServiceService],
+ imports: [SequelizeModule.forFeature([ServiceEntity, PartyEntity])],
+  controllers: [ServicesController ],
+  providers: [ServicesService],
 })
 export class ServiceModule {}
