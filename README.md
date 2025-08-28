@@ -1,8 +1,3 @@
-Com certeza! Um bom README.md é o cartão de visita de qualquer projeto. Ele deve explicar o que o projeto faz, as tecnologias utilizadas e, o mais importante, como instalá-lo e executá-lo.
-
-Baseado em tudo que construímos, preparei um README completo e profissional para o seu projeto PartyTime.
-
-Você pode simplesmente copiar e colar este conteúdo num ficheiro chamado README.md na raiz da pasta principal do seu projeto (a pasta que contém as subpastas backend e frontend).
 
 🎉 PartyTime: O Seu Gestor de Festas Pessoal
 PartyTime é uma aplicação Full-Stack completa construída para simplificar o planeamento e a gestão de eventos. Desde o controlo do orçamento até à gestão de serviços e ao envio de convites, o PartyTime centraliza todas as ferramentas necessárias para transformar qualquer festa num sucesso, sem o stress da desorganização.
