@@ -14,15 +14,14 @@ export class ServiceEntity extends Model {
   @Column(DataType.STRING)
   declare name: string;
 
-  @Column(DataType.STRING)
-  declare description: string;
+ @Column({ type: DataType.STRING, allowNull: true })
+  declare description: string | null;
 
   @Column(DataType.DECIMAL(10, 2))
  declare price: number;
 
-  @Column(DataType.STRING)
-  declare image: string;
-
+ @Column({ type: DataType.TEXT, allowNull: true })
+  declare image: string | null;
 
   @ForeignKey(() => PartyEntity)
   @Column(DataType.UUID)

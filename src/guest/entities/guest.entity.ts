@@ -22,7 +22,6 @@ export class GuestEntity extends Model {
   @Column({ type: DataType.UUID, unique: true, allowNull: true })
   declare rsvpToken: string;
 
-  
   @Column({
     type: DataType.ENUM(...Object.values(GuestStatus)),
     defaultValue: GuestStatus.PENDING,

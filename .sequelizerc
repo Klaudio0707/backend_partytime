@@ -1,0 +1,10 @@
+// .sequelizerc
+const path = require('path');
+
+module.exports = {
+  // Aponta para o arquivo de configuração que vamos criar no próximo passo
+  'config': path.resolve('config', 'sequelize.config.js'),
+  
+  // Define onde a CLI deve procurar e criar as migrations
+'migrations-path': path.resolve('migrations')
+};

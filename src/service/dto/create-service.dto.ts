@@ -15,16 +15,15 @@ export class CreateServiceDto {
 
   @IsString()
   @IsOptional() 
-  description: string;
+  description?: string;
 
   @IsNumber({}, { message: 'O preço deve ser um número.' })
   @IsPositive({ message: 'O preço deve ser um número positivo.' })
   price: number;
 
-  @IsUrl({}, { message: 'A imagem deve ser uma URL válida.' })
-  @IsOptional() // A imagem é opcional
-  image: string;
-
+  @IsUrl({}, { message: 'Por favor, insira uma URL válida.' })
+  @IsOptional()
+  image?: string;
 
   @IsString()
   @IsUUID('4', { message: 'O ID da festa (partyId) deve ser um UUID válido.' })

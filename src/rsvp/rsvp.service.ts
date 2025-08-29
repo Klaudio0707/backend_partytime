@@ -36,7 +36,6 @@ export class RsvpService {
       throw new UnauthorizedException('Senha da festa incorreta.');
     }
   }
-
     guest.status = GuestStatus.CONFIRMED;
     await guest.save();
 
