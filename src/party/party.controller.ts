@@ -9,13 +9,14 @@ export class PartiesController {
   constructor(private readonly partiesService: PartiesService) { }
 
 
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Post()
   create(@Body() createPartyDto: CreatePartyDto, @Req() req) {
     const user = req.user;
     return this.partiesService.create(createPartyDto, user);
   }
 
-  @UseGuards(AuthGuard('jwt-from-cookie'))
+
   @Get()
   findAll() {
     return this.partiesService.findAll();
