@@ -8,7 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { GuestModule } from './guest/guest.module';
 import { RsvpModule } from './rsvp/rsvp.module';
 import * as dotenv from "dotenv"
-import { EmptyStringToNullMiddleware } from './shared/middlewares/empty-string-to-null.middleware';
+// import { EmptyStringToNullMiddleware } from './shared/middlewares/empty-string-to-null.middleware';
 
 
 dotenv.config()
@@ -25,9 +25,9 @@ imports: [
   providers: [],
 })
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(EmptyStringToNullMiddleware) // Aplica nosso novo middleware
-      .forRoutes('*'); 
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     // .apply(EmptyStringToNullMiddleware) // Aplica nosso novo middleware
+  //     .forRoutes('*'); 
+  // }
 }

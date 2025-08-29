@@ -9,7 +9,7 @@ async function bootstrap() {
   app.use(cookieParser()); 
 
   app.enableCors({
-    origin: 'http://localhost:5173', // A URL do seu frontend
+    origin: ['http://localhost:5173', 'https://front-partytime.vercel.app'],
     credentials: true,
   });
 
