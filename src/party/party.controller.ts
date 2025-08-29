@@ -2,27 +2,27 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus
 import { PartiesService } from './party.service';
 import { CreatePartyDto } from './dto/create-party.dto';
 import { UpdatePartyDto } from './dto/update-party.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('parties')
 export class PartiesController {
   constructor(private readonly partiesService: PartiesService) { }
 
-  
+
   @Post()
   create(@Body() createPartyDto: CreatePartyDto, @Req() req) {
     const user = req.user;
-
     return this.partiesService.create(createPartyDto, user);
   }
 
-  // sem proteção para mostrar no home do frontend
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Get()
   findAll() {
     return this.partiesService.findAll();
   }
 
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Get('my-parties')
-
   findUserParties(@Req() req) {
   const userId = req.user.id;
   return this.partiesService.findAllByUserId(userId);
@@ -31,7 +31,8 @@ export class PartiesController {
   findOne(@Param('id') id: string) {
     return this.partiesService.findOne(id);
   }
-  
+
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -41,6 +42,8 @@ export class PartiesController {
     const userId = req.user.id;
     return this.partiesService.update(id, updatePartyDto, userId);
   }
+  
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string) {

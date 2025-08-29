@@ -6,7 +6,6 @@ import { PartyEntity } from './entities/party.entity';
 
 @Module({
    imports: [
-
     SequelizeModule.forFeature([PartyEntity]),
   ],
   controllers: [PartiesController],

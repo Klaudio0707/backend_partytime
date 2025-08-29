@@ -71,7 +71,7 @@ async update(id: string, updatePartyDto: UpdatePartyDto, userId: string): Promis
   }
   async remove(id: string): Promise<void> {
     const party = await this.findOne(id);
-    // Graças à associação, o Sequelize pode ser configurado para deletar
+    //O Sequelize pode ser configurado para deletar
     // os serviços relacionados em cascata (ON DELETE CASCADE no banco).
     await party.destroy();
   }

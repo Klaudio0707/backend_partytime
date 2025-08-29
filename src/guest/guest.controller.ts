@@ -12,9 +12,9 @@ export class GuestController {
   @UseGuards(AuthGuard('jwt-from-cookie'))
   create(@Body() createGuestDto: CreateGuestDto, @Req() req) {
     const userId = req.user.id;
-    // Chama o novo método simplificado do serviço
     return this.guestService.create(createGuestDto, userId);
   }
+  
   @Delete(':id')
   @UseGuards(AuthGuard('jwt-from-cookie'))
   remove(@Param('id') id: string, @Req() req) {
