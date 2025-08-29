@@ -5,6 +5,7 @@ import { ServiceModule } from './service/service.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
+import { RsvpModule } from './rsvp/rsvp.module';
 
 @Module({
 imports: [
@@ -13,7 +14,7 @@ imports: [
     PartyModule,    
     ServiceModule, 
     UsersModule, 
-    GuestModule,
+    GuestModule, RsvpModule,
   ],
   controllers: [],
   providers: [],
