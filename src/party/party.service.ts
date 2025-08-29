@@ -8,7 +8,6 @@ import { UserEntity } from 'src/users/entities/user.entity';
 import { GuestEntity } from 'src/guest/entities/guest.entity';
 
 
-
 @Injectable()
 export class PartiesService {
   constructor(
@@ -31,6 +30,7 @@ export class PartiesService {
 
 async findAll(): Promise<PartyEntity[]> {
   return this.partyModel.findAll({
+    attributes: { exclude: ['password'] },
     include: [
       { model: ServiceEntity }, 
       { model: UserEntity, attributes: ['username'] } 
@@ -69,10 +69,14 @@ async update(id: string, updatePartyDto: UpdatePartyDto, userId: string): Promis
     // Se a permissão for válida, atualiza a festa e retorna o resultado
     return party.update(updatePartyDto);
   }
-  async remove(id: string): Promise<void> {
+  async remove(id: string, userId: string): Promise<void> {
     const party = await this.findOne(id);
-    //O Sequelize pode ser configurado para deletar
-    // os serviços relacionados em cascata (ON DELETE CASCADE no banco).
+
+    // VERIFICAÇÃO DE PERMISSÃO 
+    if (party.userId !== userId) {
+      throw new ForbiddenException('Você não tem permissão para excluir esta festa.');
+    }
+    
     await party.destroy();
   }
 }
