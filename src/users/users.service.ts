@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,27 +12,28 @@ export class UsersService {
     private readonly userModel: typeof UserEntity,
   ) {}
 
-  /**
-   * Cria um novo usuário. A senha é automaticamente hasheada
-   * pelo hook @BeforeCreate na entidade UserEntity.
-   */
-  async create(
-    createUserDto: CreateUserDto,
-  ): Promise<UserEntity> {
-    const user = new UserEntity();
-    user.email = createUserDto.email;
-    user.password = createUserDto.password; 
-    user.username = createUserDto.username;
+ 
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
+   
+    const { email, username } = createUserDto;
 
-    return await user.save();
+    // Verifica se um utilizador com o mesmo e-mail já existe
+    const existingUserByEmail = await this.userModel.findOne({ where: { email } });
+    if (existingUserByEmail) {
+      throw new ConflictException('Este endereço de e-mail já está em uso.');
+    }
+   
+    const existingUserByUsername = await this.userModel.findOne({ where: { username } });
+    if (existingUserByUsername) {
+      throw new ConflictException('Este nome de utilizador já está em uso.');
+    }
+
+    return this.userModel.create(createUserDto as any);
   }
 
-  /**
-   * Retorna todos os usuários sem o campo de senha.
-   */
   async findAll(): Promise<UserEntity[]> {
     return this.userModel.findAll({
-      attributes: { exclude: ['password'] }, // Exclui a senha da resposta
+      attributes: { exclude: ['password'] }, 
     });
   }
 
