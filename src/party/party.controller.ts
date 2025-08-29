@@ -47,7 +47,8 @@ export class PartiesController {
   @UseGuards(AuthGuard('jwt-from-cookie'))
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
-    return this.partiesService.remove(id);
+  remove(@Param('id') id: string, @Req() req) {
+    const userId = req.user.id;
+    return this.partiesService.remove(id, userId);
   }
 }
