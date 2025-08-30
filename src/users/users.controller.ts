@@ -39,7 +39,7 @@ export class UsersController {
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(id);
   }
-  @Patch('patch/profile')
+  @Patch('profile')
   @UseGuards(AuthGuard('jwt-from-cookie'))
   updateProfile(@Req() req, @Body() updateUserDto: UpdateUserDto) {
     const userId = req.user.id;
