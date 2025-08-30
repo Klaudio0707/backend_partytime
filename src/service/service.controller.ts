@@ -4,7 +4,7 @@ import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
 import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard('jwt-from-cookie'))
+@UseGuards(AuthGuard('jwt-from-cookie')) 
 @Controller('services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) { }
