@@ -11,11 +11,11 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173', 
-      'https://partytime-frontend-xyz.vercel.app'
+      'https://front-partytime.vercel.app'
     ],
     credentials: true,
   });
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
