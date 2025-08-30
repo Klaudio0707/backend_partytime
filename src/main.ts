@@ -10,11 +10,15 @@ async function bootstrap() {
   app.use(cookieParser()); 
 
   app.enableCors({
-    origin: [
-      'http://localhost:5173', 
-      'https://front-partytime.vercel.app'
-    ],
-    credentials: true,
+    origin: 'https://front-partytime.vercel.app', 
+    
+    // Métodos HTTP liberados
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    
+    allowedHeaders: 'Content-Type, Accept, Authorization', 
+    
+    credentials: true, 
+  
   });
 
   await app.listen(process.env.PORT || 3000);
