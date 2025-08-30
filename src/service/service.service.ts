@@ -24,7 +24,7 @@ export class ServicesService {
     if (party.userId !== userId) {
       throw new ForbiddenException('Você não tem permissão para adicionar serviços a esta festa.');
     }
-    return this.serviceModel.create(createServiceDto as any);
+    return this.serviceModel.create({ ...createServiceDto });
   }
   // O método findAll é geralmente usado para admin. Para o usuário,
   // os serviços são buscados através da festa (no PartiesService).
