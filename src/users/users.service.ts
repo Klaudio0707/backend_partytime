@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
+import { Sequelize } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class UsersService {
@@ -10,22 +12,29 @@ export class UsersService {
   
     @InjectModel(UserEntity)
     private readonly userModel: typeof UserEntity,
+    private sequelize: Sequelize,
   ) {}
 
  
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
-   
     const { email, username } = createUserDto;
+  
+    const existingUser = await this.userModel.findOne({
+      where: {
+        [Op.or]: [
+          this.sequelize.where(this.sequelize.fn('LOWER', this.sequelize.col('email')), this.sequelize.fn('LOWER', email)),
+          this.sequelize.where(this.sequelize.fn('LOWER', this.sequelize.col('username')), this.sequelize.fn('LOWER', username)),
+        ],
+      },
+    });
 
-    // Verifica se um utilizador com o mesmo e-mail já existe
-    const existingUserByEmail = await this.userModel.findOne({ where: { email } });
-    if (existingUserByEmail) {
-      throw new ConflictException('Este endereço de e-mail já está em uso.');
-    }
-   
-    const existingUserByUsername = await this.userModel.findOne({ where: { username } });
-    if (existingUserByUsername) {
-      throw new ConflictException('Este nome de utilizador já está em uso.');
+    if (existingUser) {
+      if (existingUser.email.toLowerCase() === email.toLowerCase()) {
+        throw new ConflictException('Este endereço de e-mail já está em uso.');
+      }
+      if (existingUser.username.toLowerCase() === username.toLowerCase()) {
+        throw new ConflictException('Este nome de utilizador já está em uso.');
+      }
     }
 
     return this.userModel.create(createUserDto as any);
