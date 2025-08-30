@@ -8,7 +8,7 @@ import {
   Delete,
   ParseUUIDPipe,
   UseGuards,
-  Req, 
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,7 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
 
   @Post()
@@ -27,19 +27,19 @@ export class UsersController {
   }
 
   // Geralmente, listar todos os usuários é uma rota de administrador,
-  
-    @UseGuards(AuthGuard('jwt-from-cookie')) 
+
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
-  @UseGuards(AuthGuard('jwt-from-cookie')) 
+  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Get(':id')
   // 2. Use o ParseUUIDPipe e mude o tipo para string
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(id);
   }
-@Patch('patch/profile')
+  @Patch('patch/profile')
   @UseGuards(AuthGuard('jwt-from-cookie'))
   updateProfile(@Req() req, @Body() updateUserDto: UpdateUserDto) {
     const userId = req.user.id;

@@ -13,7 +13,7 @@ export class PartiesService {
   constructor(
     @InjectModel(PartyEntity)
     private readonly partyModel: typeof PartyEntity,
-  ) {}
+  ) { }
 
   async create(createPartyDto: CreatePartyDto, user: UserEntity): Promise<PartyEntity> {
     const party = new PartyEntity();
@@ -21,43 +21,43 @@ export class PartiesService {
     party.description = createPartyDto.description;
     party.budget = createPartyDto.budget;
     party.image = createPartyDto.image;
-    party.author = user.username; 
-    party.userId = user.id;       
+    party.author = user.username;
+    party.userId = user.id;
     party.date = createPartyDto.date;
-  party.password = createPartyDto.password ?? null;
+    party.password = createPartyDto.password ?? null;
     return await party.save();
   }
 
-async findAll(): Promise<PartyEntity[]> {
-  return this.partyModel.findAll({
-    attributes: { exclude: ['password'] },
-    include: [
-      { model: ServiceEntity }, 
-      { model: UserEntity, attributes: ['username'] } 
-    ],
-  });
-}
-
-async findAllByUserId(userId: string): Promise<PartyEntity[]> {
-  return this.partyModel.findAll({ 
-    where: { userId },
-    include: [ServiceEntity] 
-  });
-}
-
-async findOne(id: string): Promise<PartyEntity> {
-  const party = await this.partyModel.findByPk(id, {
-    include: [ServiceEntity, GuestEntity], // inclui os convidados
-  });
-
-  if (!party) {
-    throw new NotFoundException(`Festa com ID ${id} não encontrada.`);
+  async findAll(): Promise<PartyEntity[]> {
+    return this.partyModel.findAll({
+      attributes: { exclude: ['password'] },
+      include: [
+        { model: ServiceEntity },
+        { model: UserEntity, attributes: ['username'] }
+      ],
+    });
   }
 
-  return party;
-}
+  async findAllByUserId(userId: string): Promise<PartyEntity[]> {
+    return this.partyModel.findAll({
+      where: { userId },
+      include: [ServiceEntity]
+    });
+  }
 
-async update(id: string, updatePartyDto: UpdatePartyDto, userId: string): Promise<PartyEntity> {
+  async findOne(id: string): Promise<PartyEntity> {
+    const party = await this.partyModel.findByPk(id, {
+      include: [ServiceEntity, GuestEntity], // inclui os convidados
+    });
+
+    if (!party) {
+      throw new NotFoundException(`Festa com ID ${id} não encontrada.`);
+    }
+
+    return party;
+  }
+
+  async update(id: string, updatePartyDto: UpdatePartyDto, userId: string): Promise<PartyEntity> {
     // Busca a festa para garantir que ela existe
     const party = await this.findOne(id); // findOne já lança NotFoundException se não achar
 
@@ -76,7 +76,7 @@ async update(id: string, updatePartyDto: UpdatePartyDto, userId: string): Promis
     if (party.userId !== userId) {
       throw new ForbiddenException('Você não tem permissão para excluir esta festa.');
     }
-    
+
     await party.destroy();
   }
 }

@@ -9,7 +9,7 @@ export class UsersService {
   constructor(
     @InjectModel(UserEntity)
     private readonly userModel: typeof UserEntity,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const { email, username } = createUserDto;
@@ -29,7 +29,7 @@ export class UsersService {
   // --- O resto do seu serviço continua igual ---
   async findAll(): Promise<UserEntity[]> {
     return this.userModel.findAll({
-      attributes: { exclude: ['password'] }, 
+      attributes: { exclude: ['password'] },
     });
   }
 

@@ -14,7 +14,7 @@ export class RsvpService {
 
   constructor(
     @InjectModel(GuestEntity) private readonly guestModel: typeof GuestEntity,
-    private readonly configService: ConfigService, 
+    private readonly configService: ConfigService,
   ) {
     // Usamos o ConfigService para pegar a chave da API de forma segura
     this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
@@ -28,18 +28,18 @@ export class RsvpService {
 
     if (!guest) throw new NotFoundException('Convite não encontrado ou inválido.');
     if (guest.status === GuestStatus.CONFIRMED) return { message: 'Presença já confirmada!' };
- if (guest.party.password) {
-  //comparar senha de entrada com a senha da festa salva no banco ****
-    const passwordMatches = await bcrypt.compare(rsvpDto.password || '', guest.party.password);
-    
-    if (!passwordMatches) {
-      throw new UnauthorizedException('Senha da festa incorreta.');
+    if (guest.party.password) {
+      //comparar senha de entrada com a senha da festa salva no banco ****
+      const passwordMatches = await bcrypt.compare(rsvpDto.password || '', guest.party.password);
+
+      if (!passwordMatches) {
+        throw new UnauthorizedException('Senha da festa incorreta.');
+      }
     }
-  }
     guest.status = GuestStatus.CONFIRMED;
     await guest.save();
 
-  
+
     const adminEmail = this.configService.get<string>('ADMIN_NOTIFICATION_EMAIL');
     if (!adminEmail) {
       throw new Error('ADMIN_NOTIFICATION_EMAIL is not set in environment variables.');

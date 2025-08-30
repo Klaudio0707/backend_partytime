@@ -2,10 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Http
 import { ServicesService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt-from-cookie'))
 @Controller('services')
 export class ServicesController {
-  constructor(private readonly servicesService: ServicesService) {}
+  constructor(private readonly servicesService: ServicesService) { }
 
   @Post()
   create(@Body() createServiceDto: CreateServiceDto, @Req() req) {
@@ -25,8 +27,8 @@ export class ServicesController {
 
   @Patch(':id')
   update(@Param('id') id: string,
-  @Body() updateServiceDto: UpdateServiceDto,
-  @Req() req) {
+    @Body() updateServiceDto: UpdateServiceDto,
+    @Req() req) {
     const userId = req.user.id; // Pega o ID do usuário logado
     return this.servicesService.update(id, updateServiceDto, userId);
   }
@@ -34,7 +36,7 @@ export class ServicesController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string, @Req() req) {
-    const userId = req.user.id; // Pega o ID do usuário logado
+    const userId = req.user.id;
     return this.servicesService.remove(id, userId);
   }
 }

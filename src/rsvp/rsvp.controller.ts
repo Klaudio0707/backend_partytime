@@ -7,9 +7,9 @@ import { Post } from '@nestjs/common/decorators/http/request-mapping.decorator';
 
 @Controller('rsvp')
 export class RsvpController {
-  constructor(private readonly rsvpService: RsvpService) {}
+  constructor(private readonly rsvpService: RsvpService) { }
 
-@Post(':token')
+  @Post(':token')
 
   confirm(
     @Param('token') token: string,

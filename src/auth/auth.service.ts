@@ -38,7 +38,7 @@ export class AuthService {
     return { message: 'Login bem-sucedido' };
   }
    async logout(response: Response) {
-    // Usa o método clearCookie do objeto de resposta para remover o cookie do navegador
+    // método clearCookie
     response.clearCookie('access_token');
     return { message: 'Logout bem-sucedido' };
   }

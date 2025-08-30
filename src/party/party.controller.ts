@@ -25,9 +25,9 @@ export class PartiesController {
   @UseGuards(AuthGuard('jwt-from-cookie'))
   @Get('my-parties')
   findUserParties(@Req() req) {
-  const userId = req.user.id;
-  return this.partiesService.findAllByUserId(userId);
-}
+    const userId = req.user.id;
+    return this.partiesService.findAllByUserId(userId);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.partiesService.findOne(id);
@@ -43,7 +43,7 @@ export class PartiesController {
     const userId = req.user.id;
     return this.partiesService.update(id, updatePartyDto, userId);
   }
-  
+
   @UseGuards(AuthGuard('jwt-from-cookie'))
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)

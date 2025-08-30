@@ -6,8 +6,8 @@ import {
   IsUrl,
   IsArray,
   ValidateNested,
-  IsOptional, 
-  MinLength,    
+  IsOptional,
+  MinLength,
   IsDateString,
   ValidateIf,
 } from 'class-validator';
@@ -33,13 +33,13 @@ export class CreatePartyDto {
   budget: number; // orçamento da festa
 
   @IsUrl({}, { message: 'Por favor, insira uma URL válida.' })
-  @ValidateIf((object, value) =>  value !== '') // o objeto conter algo passa, se não bloqueia
+  @ValidateIf((object, value) => value !== '') // o objeto conter algo passa, se não bloqueia
   @IsOptional() // a url da imagem é opcional e caso o usuario inclua alguma url, ela exige http no inicio
   image?: string;
 
   @Transform(({ value }) => (value === '' ? null : value))
   @IsString()
-  @IsOptional() 
+  @IsOptional()
   @MinLength(4, { message: 'A senha da festa precisa ter no mínimo 4 caracteres.' })
   password?: string;
 
