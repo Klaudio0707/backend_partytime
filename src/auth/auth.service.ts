@@ -30,7 +30,7 @@ export class AuthService {
 
     response.cookie('access_token', access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
+      secure: true,
       sameSite: 'lax',
       maxAge: 1000 * 60 * 60 * 24, // 1 dia
     });
