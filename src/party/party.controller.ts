@@ -1,54 +1,70 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import { PartiesService } from './party.service';
 import { CreatePartyDto } from './dto/create-party.dto';
 import { UpdatePartyDto } from './dto/update-party.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { UserEntity } from 'src/users/entities/user.entity';
+import { Request } from 'express';
+
+// O AuthGuard anexa o UserEntity ao request.
+// Para ter o tipo correto, podemos estender a interface Request.
+interface RequestWithUser extends Request {
+  user: UserEntity;
+}
 
 @Controller('parties')
 export class PartiesController {
-  constructor(private readonly partiesService: PartiesService) { }
+  constructor(private readonly partiesService: PartiesService) {}
 
-
-  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Post()
-  create(@Body() createPartyDto: CreatePartyDto, @Req() req) {
-    const user = req.user;
-    return this.partiesService.create(createPartyDto, user);
+  @UseGuards(AuthGuard('jwt-from-cookie'))
+  create(@Body() createPartyDto: CreatePartyDto, @Req() req: RequestWithUser) {
+    // Passamos a entidade completa do usuário para o serviço
+    return this.partiesService.create(createPartyDto, req.user);
   }
-
 
   @Get()
   findAll() {
     return this.partiesService.findAll();
   }
 
-  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Get('my-parties')
-  findUserParties(@Req() req) {
-    const userId = req.user.id;
-    return this.partiesService.findAllByUserId(userId);
+  @UseGuards(AuthGuard('jwt-from-cookie'))
+  findUserParties(@Req() req: RequestWithUser) {
+    return this.partiesService.findAllByUserId(req.user.id);
   }
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.partiesService.findOne(id);
   }
 
-  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Patch(':id')
+  @UseGuards(AuthGuard('jwt-from-cookie')) // Apenas um AuthGuard é necessário
   update(
-    @Param('id') id: string,
+    @Param('id') partyId: string,
     @Body() updatePartyDto: UpdatePartyDto,
-    @Req() req,
+    @Req() req: RequestWithUser,
   ) {
-    const userId = req.user.id;
-    return this.partiesService.update(id, updatePartyDto, userId);
+    return this.partiesService.update(partyId, updatePartyDto, req.user.id);
   }
 
-  @UseGuards(AuthGuard('jwt-from-cookie'))
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string, @Req() req) {
-    const userId = req.user.id;
-    return this.partiesService.remove(id, userId);
+  @HttpCode(HttpStatus.NO_CONTENT) // Retorna 204 No Content em caso de sucesso
+  @UseGuards(AuthGuard('jwt-from-cookie'))
+  remove(@Param('id') partyId: string, @Req() req: RequestWithUser) {
+    return this.partiesService.remove(partyId, req.user.id);
   }
 }

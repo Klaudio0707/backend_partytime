@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { PartyEntity } from './entities/party.entity';
 import { ServiceEntity } from '../service/entities/service.entity';
@@ -7,25 +11,39 @@ import { UpdatePartyDto } from './dto/update-party.dto';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { GuestEntity } from 'src/guest/entities/guest.entity';
 
-
 @Injectable()
 export class PartiesService {
   constructor(
     @InjectModel(PartyEntity)
     private readonly partyModel: typeof PartyEntity,
-  ) { }
+  ) {}
+
+  /**
+   * Método privado para encontrar uma festa e verificar se o usuário é o proprietário.
+   */
+  private async verifyPartyOwnership(partyId: string, userId: string): Promise<PartyEntity> {
+    const party = await this.partyModel.findByPk(partyId);
+
+    if (!party) {
+      throw new NotFoundException(`Festa com ID ${partyId} não encontrada.`);
+    }
+
+    if (party.userId !== userId) {
+      throw new ForbiddenException('Você não tem permissão para modificar esta festa.');
+    }
+
+    return party;
+  }
 
   async create(createPartyDto: CreatePartyDto, user: UserEntity): Promise<PartyEntity> {
-    const party = new PartyEntity();
-    party.title = createPartyDto.title;
-    party.description = createPartyDto.description;
-    party.budget = createPartyDto.budget;
-    party.image = createPartyDto.image;
-    party.author = user.username;
-    party.userId = user.id;
-    party.date = createPartyDto.date;
-    party.password = createPartyDto.password ?? null;
-    return await party.save();
+    // Usando o método .create do Sequelize, que é mais direto
+    const partyData = {
+      ...createPartyDto,
+      author: user.username,
+      userId: user.id,
+      password: createPartyDto.password ?? null,
+    };
+    return this.partyModel.create(partyData);
   }
 
   async findAll(): Promise<PartyEntity[]> {
@@ -33,7 +51,7 @@ export class PartiesService {
       attributes: { exclude: ['password'] },
       include: [
         { model: ServiceEntity },
-        { model: UserEntity, attributes: ['username'] }
+        { model: UserEntity, attributes: ['username'] },
       ],
     });
   }
@@ -41,13 +59,13 @@ export class PartiesService {
   async findAllByUserId(userId: string): Promise<PartyEntity[]> {
     return this.partyModel.findAll({
       where: { userId },
-      include: [ServiceEntity]
+      include: [ServiceEntity],
     });
   }
 
   async findOne(id: string): Promise<PartyEntity> {
     const party = await this.partyModel.findByPk(id, {
-      include: [ServiceEntity, GuestEntity], // inclui os convidados
+      include: [ServiceEntity, GuestEntity],
     });
 
     if (!party) {
@@ -58,25 +76,14 @@ export class PartiesService {
   }
 
   async update(id: string, updatePartyDto: UpdatePartyDto, userId: string): Promise<PartyEntity> {
-    // Busca a festa para garantir que ela existe
-    const party = await this.findOne(id); // findOne já lança NotFoundException se não achar
-
-    //  VERIFICAÇÃO DE PERMISSÃO: Garante que o usuário é o dono da festa
-    if (party.userId !== userId) {
-      throw new ForbiddenException('Você não tem permissão para editar esta festa.');
-    }
-
-    // Se a permissão for válida, atualiza a festa e retorna o resultado
+    // encontrar e validar a permissão
+    const party = await this.verifyPartyOwnership(id, userId);
     return party.update(updatePartyDto);
   }
+
   async remove(id: string, userId: string): Promise<void> {
-    const party = await this.findOne(id);
-
-    // VERIFICAÇÃO DE PERMISSÃO 
-    if (party.userId !== userId) {
-      throw new ForbiddenException('Você não tem permissão para excluir esta festa.');
-    }
-
+    // verificação antes de deletar
+    const party = await this.verifyPartyOwnership(id, userId);
     await party.destroy();
   }
 }

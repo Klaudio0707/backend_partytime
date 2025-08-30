@@ -3,10 +3,17 @@ import { ServiceEntity } from '../../service/entities/service.entity';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { GuestEntity } from 'src/guest/entities/guest.entity';
 import * as bcrypt from 'bcrypt';
+import { UpdatePartyDto } from '../dto/update-party.dto';
 
 @Table({ tableName: 'parties', timestamps: true })
 
 export class PartyEntity extends Model {
+  static findByIdAndUpdate(partyId: string, updatePartyDto: UpdatePartyDto, arg2: { new: boolean; }) {
+    throw new Error('Method not implemented.');
+  }
+  static findById(partyId: string) {
+    throw new Error('Method not implemented.');
+  }
   @PrimaryKey
   @Column({
     type: DataType.UUID,

@@ -34,7 +34,7 @@ export class CreatePartyDto {
 
   @IsUrl({}, { message: 'Por favor, insira uma URL válida.' })
   @ValidateIf((object, value) => value !== '') // o objeto conter algo passa, se não bloqueia
-  @IsOptional() // a url da imagem é opcional e caso o usuario inclua alguma url, ela exige http no inicio
+  @IsOptional() 
   image?: string;
 
   @Transform(({ value }) => (value === '' ? null : value))
