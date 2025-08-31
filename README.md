@@ -1,4 +1,7 @@
-<img width="1366" height="720" alt="Captura de tela 2025-08-31 000326" src="https://github.com/user-attachments/assets/6da7c9c1-3f72-42d3-9938-f16edee9e141" />
+
+<img width="1310" height="625" alt="Captura de tela 2025-08-31 000751" src="https://github.com/user-attachments/assets/3f0aeef8-1423-4bee-bde8-54820b71d3f4" />
+
+
 🎉 PartyTime: O Seu Gestor de Festas Pessoal
 PartyTime é uma aplicação Full-Stack completa construída para simplificar o planeamento e a gestão de eventos. Desde o controlo do orçamento até à gestão de serviços e ao envio de convites, o PartyTime centraliza todas as ferramentas necessárias para transformar qualquer festa num sucesso, sem o stress da desorganização.
 
