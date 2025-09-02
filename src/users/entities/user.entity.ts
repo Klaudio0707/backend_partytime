@@ -38,7 +38,7 @@ export class UserEntity extends Model {
     instance.password = await bcrypt.hash(instance.password, saltRounds);
   }
 
-  // 👇 ESTE É O NOVO GATILHO QUE VAI RESOLVER O PROBLEMA 👇
+  
   @BeforeUpdate
   static async hashPasswordOnUpdate(instance: UserEntity) {
     // Esta verificação é importante: só faz o hash se o campo 'password' foi modificado.
