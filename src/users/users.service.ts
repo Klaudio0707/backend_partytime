@@ -26,8 +26,8 @@ export class UsersService {
     //Se ambos estiverem livres, cria o novo utilizador
     return this.userModel.create(createUserDto as any);
   }
-  // --- O resto do seu serviço continua igual ---
-  async findAll(): Promise<UserEntity[]> {
+  
+    async findAll(): Promise<UserEntity[]> {
     return this.userModel.findAll({
       attributes: { exclude: ['password'] },
     });
