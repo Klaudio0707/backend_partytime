@@ -10,7 +10,7 @@
 //       Object.keys(req.body).forEach(key => {
 //         // Se o valor de uma chave for uma string estritamente vazia...
 //         if (req.body[key] === '') {
-//           // ...nós o transformamos em 'null'.
+//           //  o transformamos em 'null'.
 //           req.body[key] = null;
 //         }
 //       });
