@@ -18,8 +18,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { Request } from 'express';
 
-// O AuthGuard anexa o UserEntity ao request.
-// Para ter o tipo correto, podemos estender a interface Request.
 interface RequestWithUser extends Request {
   user: UserEntity;
 }
@@ -31,7 +29,7 @@ export class PartiesController {
   @Post()
   @UseGuards(AuthGuard('jwt-from-cookie'))
   create(@Body() createPartyDto: CreatePartyDto, @Req() req: RequestWithUser) {
-    // Passamos a entidade completa do usuário para o serviço
+
     return this.partiesService.create(createPartyDto, req.user);
   }
 
