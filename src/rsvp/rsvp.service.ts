@@ -16,7 +16,7 @@ export class RsvpService {
     @InjectModel(GuestEntity) private readonly guestModel: typeof GuestEntity,
     private readonly configService: ConfigService,
   ) {
-    // Usamos o ConfigService para pegar a chave da API de forma segura
+
     this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
   }
 
@@ -48,7 +48,7 @@ export class RsvpService {
 
     await this.resend.emails.send({
       from: 'PartyTime Notificações <onboarding@resend.dev>',
-      to: [adminEmail], // Envia sempre para o e-mail do admin
+      to: [adminEmail], 
       subject: `🎉 Nova Confirmação: ${guest.name} na festa "${guest.party.title}"!`,
       html: `O convidado <strong>${guest.name}</strong> confirmou presença na festa de <strong>${organizer.username}</strong>.`,
     });
